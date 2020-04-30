@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lgz.tutorjava.dao.TutorMapper">
+    <resultMap id="TutorMap" type="com.lgz.tutorjava.model.Tutor">
+        <id column="tutor_id" property="tutorId" jdbcType="INTEGER"/>
+        <result column="tutor_name" property="tutorName" jdbcType="VARCHAR"/>
+        <result column="tutor_age" property="tutorAge" jdbcType="INTEGER"/>
+        <result column="tutor_sex" property="tutorSex" jdbcType="VARCHAR"/>
+        <result column="tutor_good_subjects" property="tutorGoodSubjects" jdbcType="VARCHAR"/>
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="tutor_hobby" property="tutorHobby" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="reg_time" property="regTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="tutor_education" property="tutorEducation" jdbcType="VARCHAR"/>
+        <result column="tutor_location" property="tutorLocation" jdbcType="VARCHAR"/>
+        <result column="tutor_school" property="tutorSchool" jdbcType="VARCHAR"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="getTutors" resultMap="TutorMap">
+        select tutor_id,
+               tutor_name,
+               phone_number,
+               tutor_education,
+               tutor_location
+        from tutor
+        where is_del=0
+        <if test="condition!=null and condition!=''">
+            and tutor_name like '%${condition}%'
+        </if>
+        limit #{page},#{limit}
+    </select>
+
+    <select id="tutorNumber" resultType="int">
+        select count(*) from tutor where is_del=0
+        <if test="condition !=null and condition!=''">
+            and tutor_name like '%${condition}%'
+        </if>
+    </select>
+
+    <update id="delTutor" >
+        update tutor set is_del=1,update_time=#{updateTime} where tutor_id in (${delList})
+    </update>
+    
+    <select id="getOneTutor" resultMap="TutorMap">
+        select tutor_name,tutor_age,tutor_sex,
+               tutor_education,tutor_school,
+               tutor_good_subjects,phone_number,
+               tutor_location,tutor_hobby,user_name
+        from tutor where tutor_id=#{tutorId};
+    </select>
+
+    <insert id="addTutor" parameterType="com.lgz.tutorjava.model.Tutor">
+        insert into tutor (tutor_name,tutor_age,tutor_sex,
+                           tutor_education,tutor_school,
+                           tutor_good_subjects,phone_number,
+                           tutor_location,tutor_hobby,user_name,
+                           reg_time,is_del)
+        values (#{tutor.tutorName},#{tutor.tutorAge},#{tutor.tutorSex},
+                #{tutor.tutorEducation},#{tutor.tutorSchool},
+                #{tutor.tutorGoodSubjects},#{tutor.phoneNumber},
+                #{tutor.tutorLocation},#{tutor.tutorHobby},#{tutor.userName},
+                #{tutor.regTime},0)
+    </insert>
+
+    <update id="modifyTutor" parameterType="com.lgz.tutorjava.model.Tutor">
+       update tutor set tutor_name=#{tutor.tutorName},tutor_age=#{tutor.tutorAge},
+                        tutor_sex=#{tutor.tutorSex},tutor_education=#{tutor.tutorEducation},
+                        tutor_school=#{tutor.tutorSchool},tutor_good_subjects=#{tutor.tutorGoodSubjects},
+                        phone_number=#{tutor.phoneNumber},tutor_location=#{tutor.tutorLocation},
+                        tutor_hobby=#{tutor.tutorHobby},user_name=#{tutor.userName},update_time=#{tutor.updateTime}
+       where tutor_id=#{tutor.tutorId}
+    </update>
+</mapper>

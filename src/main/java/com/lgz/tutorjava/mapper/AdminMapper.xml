@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lgz.tutorjava.dao.AdminMapper">
+
+    <resultMap id="AdminMap" type="com.lgz.tutorjava.model.Admin">
+        <id column="admin_id" property="adminId" jdbcType="INTEGER"/>
+        <result column="admin_name" property="adminName" jdbcType="VARCHAR"/>
+        <result column="admin_password" property="adminPassword" jdbcType="VARCHAR"/>
+        <result column="power" property="power" jdbcType="INTEGER"/>
+        <result column="admin_information" property="adminInformation" jdbcType="VARCHAR"/>
+        <result column="reg_time" property="regTime" jdbcType="VARCHAR"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="getAdmins" resultMap="AdminMap">
+        select admin_id,admin_name,power,admin_information from admin
+        where is_del=0 and power>#{power}
+    </select>
+
+</mapper>

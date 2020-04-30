@@ -1,0 +1,21 @@
+server:
+  port: 8888
+  servlet:
+    context-path:
+spring:
+  profiles:
+    active: dev
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      indent_output: true
+      fail_on_empty_beans: false
+    default-property-inclusion: NON_EMPTY
+    deserialization:
+      fail_on_unknown_properties: false
+    parser:
+      allow_unquoted_control_chars: true
+      allow_single_quotes: true
+    time-zone: GMT+8
+logging:
+  config: classpath:logback.xml
