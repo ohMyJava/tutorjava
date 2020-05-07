@@ -4,6 +4,7 @@ import com.lgz.tutorjava.model.Tutor;
 import com.lgz.tutorjava.service.TutorService;
 import com.lgz.tutorjava.utils.JsonUtil;
 import com.lgz.tutorjava.utils.Message;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,9 @@ public class TutorController {
     }
 
     @PostMapping("delTutor")
-    public Message delTutor(String delList){
+    public Message delTutor(@RequestBody String delList){
         Message msg=Message.getInstance();
+        System.out.println(delList);
         try {
             if (tutorService.delTutor(delList)>0){
                 msg.setInfo("6666","删除成功！");

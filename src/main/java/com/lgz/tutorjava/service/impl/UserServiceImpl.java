@@ -103,4 +103,20 @@ public class UserServiceImpl implements UserService {
         user.setRegTime(DateUtil.currDate());
         return userMapper.addUser(user);
     }
+
+    @Override
+    public List<User> getUsers(String condition,Integer page,Integer limit){
+        page=(page-1)*limit;
+        return userMapper.getUsers(condition,limit,page);
+    }
+
+    @Override
+    public Integer getNumbers(String condition){
+        return userMapper.getNumbers(condition);
+    }
+
+    @Override
+    public Integer delUser(String delList){
+        return userMapper.delUser(DateUtil.currDate(),delList);
+    }
 }

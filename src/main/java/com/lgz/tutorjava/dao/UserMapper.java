@@ -27,4 +27,13 @@ public interface UserMapper {
     List<String> getUsernameList();
 
     int addUser(@Param("user") User user);
+
+    List<User> getUsers(@Param("condition") String condition,
+                        @Param("limit") Integer limit,
+                        @Param("page") Integer page);
+
+    Integer getNumbers(@Param("condition") String condition);
+
+    Integer delUser(@Param("updateTime") String updateTime,
+                    @Param("delList") String delList);
 }

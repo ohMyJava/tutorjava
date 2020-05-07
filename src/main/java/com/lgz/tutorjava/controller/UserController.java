@@ -2,7 +2,9 @@ package com.lgz.tutorjava.controller;
 
 import com.lgz.tutorjava.model.User;
 import com.lgz.tutorjava.service.UserService;
+import com.lgz.tutorjava.utils.JsonUtil;
 import com.lgz.tutorjava.utils.Message;
+import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -140,6 +142,60 @@ public class UserController {
         }catch (Exception e){
             LOGGER.info("添加用户出现异常！"+e.getMessage());
             msg.setInfo("7777","添加用户出现异常！");
+        }
+        return msg;
+    }
+
+    @PostMapping("/getUsers")
+    public Message getUsers(@RequestBody String json){
+        Message msg = Message.getInstance();
+        try {
+            Map<String,Object> map = JsonUtil.jsonToMap(json);
+            String condition=map.get("condition").toString();
+            Integer limit = (Integer) map.get("limit");
+            Integer page = (Integer) map.get("page");
+
+            msg.setData(userService.getUsers(condition,page,limit));
+            msg.setInfo("6666","获取所有用户列表成功！");
+            LOGGER.info("获取所有用户列表成功！");
+        }catch (Exception e){
+            LOGGER.info("获取所有用户出现异常："+e.getMessage());
+            msg.setInfo("7777","获取所有用户出现异常！");
+        }
+        return msg;
+    }
+
+    @GetMapping("getNumbers")
+    public Message getNumbers(String condition){
+        Message msg = Message.getInstance();
+        try {
+            Integer count = userService.getNumbers(condition);
+            msg.setData(count);
+            msg.setInfo("6666","查询用户数量成功！");
+            LOGGER.info("查询用户数量成功！用户数量为："+count);
+        }catch (Exception e){
+            LOGGER.info("查询用户数量出现异常！");
+            msg.setInfo("7777","查询用户数量出现异常!");
+        }
+        return msg;
+    }
+
+    @PostMapping("delUser")
+    public Message delUser(@RequestBody String delList){
+        Message msg = Message.getInstance();
+        try {
+            String list=JsonUtil.jsonToString(delList);
+            if (userService.delUser(list)>0){
+                msg.setInfo("6666","删除成功！");
+                LOGGER.info("删除用户列表成功："+delList);
+            }else {
+                msg.setInfo("7777","删除失败！请重试！");
+                LOGGER.info("删除用户列表失败");
+            }
+
+        }catch (Exception e){
+            LOGGER.info("删除用户出现异常！"+e.getMessage());
+            msg.setInfo("7777","删除用户出现异常!");
         }
         return msg;
     }

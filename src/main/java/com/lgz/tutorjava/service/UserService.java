@@ -25,4 +25,10 @@ public interface UserService {
     List getUsernameList();
 
     int addUser(User user);
+
+    List<User> getUsers(String condition,Integer page,Integer limit);
+
+    Integer getNumbers(String condition);
+
+    Integer delUser(String delList);
 }
