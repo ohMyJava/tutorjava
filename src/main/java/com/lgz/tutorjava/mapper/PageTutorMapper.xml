@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lgz.tutorjava.dao.PageTutorMapper">
+
+    <resultMap id="TutorMap" type="com.lgz.tutorjava.model.Tutor">
+        <id column="tutor_id" property="tutorId" jdbcType="INTEGER"/>
+        <result column="tutor_name" property="tutorName" jdbcType="VARCHAR"/>
+        <result column="tutor_age" property="tutorAge" jdbcType="INTEGER"/>
+        <result column="tutor_sex" property="tutorSex" jdbcType="VARCHAR"/>
+        <result column="tutor_good_subjects" property="tutorGoodSubjects" jdbcType="VARCHAR"/>
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR"/>
+        <result column="tutor_hobby" property="tutorHobby" jdbcType="VARCHAR"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="reg_time" property="regTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR"/>
+        <result column="tutor_education" property="tutorEducation" jdbcType="VARCHAR"/>
+        <result column="tutor_location" property="tutorLocation" jdbcType="VARCHAR"/>
+        <result column="tutor_school" property="tutorSchool" jdbcType="VARCHAR"/>
+        <result column="is_del" property="isDel" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="getTutors" resultMap="TutorMap">
+        select tutor_id,tutor_name,tutor_sex,tutor_good_subjects,tutor_education,tutor_location,tutor_school
+        from tutor
+        where
+              is_del=0
+        <if test="able!=null and able!=''">
+           and tutor_good_subjects like '%${able}%'
+        </if>
+        <if test="school!=null and school!=''">
+           and tutor_school like '%${school}%'
+        </if>
+        <if test="location!=null and location!=''">
+           and tutor_location like '%${location}%'
+        </if>
+        limit #{page},#{limit}
+    </select>
+
+    <select id="getOneTutor" resultMap="TutorMap">
+        select tutor_name,tutor_age,tutor_sex,tutor_good_subjects,
+               phone_number,tutor_education,tutor_location,tutor_school,tutor_hobby
+        from tutor
+        where tutor_id=#{tutorId}
+    </select>
+
+    <select id="getNumbers" resultType="integer">
+        select count(*)
+        from tutor
+        where
+        is_del=0
+        <if test="able!=null and able!=''">
+            and tutor_good_subjects like '%${able}%'
+        </if>
+        <if test="school!=null and school!=''">
+            and tutor_school like '%${school}%'
+        </if>
+        <if test="location!=null and location!=''">
+            and tutor_location like '%${location}%'
+        </if>
+    </select>
+</mapper>

@@ -28,9 +28,11 @@ public class AdminController {
         try {
             msg.setData(adminService.getAdmins(power));
             msg.setInfo("6666","查询管理员列表成功！");
+            LOGGER.info("查询管理员列表成功");
         }catch (Exception e){
             LOGGER.info("查询管理员列表出现异常！"+e.getMessage());
             msg.setInfo("7777","查询管理员列表出现异常");
+            LOGGER.info("查询管理员列表出现异常");
         }
         return msg;
     }

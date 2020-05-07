@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lgz.tutorjava.dao.PageStudentMapper">
+
+    <resultMap id="StudentMap" type="com.lgz.tutorjava.model.Student">
+        <id column="student_id" property="studentId" jdbcType="INTEGER" />
+        <result column="student_name" property="studentName" jdbcType="VARCHAR" />
+        <result column="student_age" property="studentAge" jdbcType="VARCHAR" />
+        <result column="student_sex" property="studentSex" jdbcType="VARCHAR" />
+        <result column="student_grade" property="studentGrade" jdbcType="VARCHAR" />
+        <result column="student_subject" property="studentSubject" jdbcType="VARCHAR" />
+        <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+        <result column="expect_tutor_able" property="expectTutorAble" jdbcType="VARCHAR" />
+        <result column="expect_tutor_location" property="expectTutorLocation" jdbcType="VARCHAR" />
+        <result column="student_hobby" property="studentHobby" jdbcType="VARCHAR" />
+        <result column="reg_time" property="regTime" jdbcType="VARCHAR" />
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="is_del" property="isDel" jdbcType="TINYINT" />
+        <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getStudents" resultMap="StudentMap">
+        select student_id,student_name,student_sex,student_grade,expect_tutor_able,expect_tutor_location
+        from student
+        where is_del=0
+        <if test="able!=null and able!=''">
+            and expect_tutor_able like '%${able}%'
+        </if>
+        <if test="grade!=null and grade!=''">
+            and student_grade like '%${grade}%'
+        </if>
+        <if test="location!=null and location!=''">
+            and expect_tutor_location like '%${location}%'
+        </if>
+        limit #{page},#{limit}
+    </select>
+
+    <select id="getOneStudent" resultMap="StudentMap">
+        select student_name,student_age,student_sex,student_grade,student_subject,phone_number,expect_tutor_able,
+            expect_tutor_location,student_hobby from student
+        where student_id=#{studentId}
+    </select>
+
+    <select id="getNumbers" resultType="integer">
+        select count(*) from student
+        where is_del=0
+        <if test="able!=null and able!=''">
+            and expect_tutor_able like '%${able}%'
+        </if>
+        <if test="grade!=null and grade!=''">
+            and student_grade like '%${grade}%'
+        </if>
+        <if test="location!=null and location!=''">
+            and expect_tutor_location like '%${location}%'
+        </if>
+    </select>
+</mapper>

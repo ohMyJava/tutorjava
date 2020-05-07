@@ -40,7 +40,7 @@ class TutorControllerTest {
 
     @Test
     void delTutor(){
-        String delList="[1]";
+        String delList="1";
         Message message=tutorController.delTutor(delList);
         System.out.println(message);
     }

@@ -16,6 +16,8 @@ public class User {
     private Integer age;
     private String phoneNumber;
     private String regTime;
+    private Integer isDel;
+    private String updateTime;
 
     public Integer getUserId() {
         return userId;
@@ -81,4 +83,35 @@ public class User {
         this.age = age;
     }
 
+    public Integer getIsDel() {
+        return isDel;
+    }
+
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", sex='" + sex + '\'' +
+                ", age=" + age +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", regTime='" + regTime + '\'' +
+                ", isDel=" + isDel +
+                ", updateTime='" + updateTime + '\'' +
+                '}';
+    }
 }
