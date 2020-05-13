@@ -2,9 +2,11 @@ server:
   port: 8888
   servlet:
     context-path:
+
 spring:
   profiles:
     active: dev
+
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     serialization:
@@ -17,5 +19,16 @@ spring:
       allow_unquoted_control_chars: true
       allow_single_quotes: true
     time-zone: GMT+8
+
+  redis:
+    host: localhost
+    port: 6379
+    jedis:
+      pool:
+        max-wait: 30000
+        max-active: 100
+        max-idle: 20
+        min-idle: 0
+
 logging:
   config: classpath:logback.xml
