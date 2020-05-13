@@ -14,6 +14,6 @@ public class IController {
     @RequestMapping("/")
     @ResponseBody
     public String hello(){
-        return "Hello";
+        return "HelloWorld!!!!!!!!";
     }
 }
