@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lgz.tutorjava.dao.PagePersonMapper">
+    <resultMap id="CommentMap" type="com.lgz.tutorjava.model.Comment">
+        <id column="comment_id" property="commentId" jdbcType="INTEGER"/>
+        <result column="comment_type" property="commentType" jdbcType="INTEGER"/>
+        <result column="comment_content" property="commentContent" jdbcType="VARCHAR"/>
+        <result column="answer_content" property="answerContent" jdbcType="VARCHAR"/>
+        <result column="submit_time" property="submitTime" jdbcType="VARCHAR"/>
+        <result column="check_time" property="checkTime" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="is_check" property="isCheck" jdbcType="INTEGER"/>
+        <result column="is_read" property="isRead" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <insert id="addComment" parameterType="com.lgz.tutorjava.model.Comment">
+        insert into comment ( comment_type, comment_content, submit_time, user_id, is_check)
+        values (#{comment.commentType},#{comment.commentContent},#{comment.submitTime},#{comment.userId},0)
+    </insert>
+</mapper>
