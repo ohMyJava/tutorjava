@@ -12,9 +12,40 @@
         <result column="is_del" property="isDel" jdbcType="INTEGER"/>
     </resultMap>
 
+    <resultMap id="CommentMap" type="com.lgz.tutorjava.model.Comment">
+        <id column="comment_id" property="commentId" jdbcType="INTEGER"/>
+        <result column="comment_type" property="commentType" jdbcType="INTEGER"/>
+        <result column="comment_content" property="commentContent" jdbcType="VARCHAR"/>
+        <result column="answer_content" property="answerContent" jdbcType="VARCHAR"/>
+        <result column="submit_time" property="submitTime" jdbcType="VARCHAR"/>
+        <result column="check_time" property="checkTime" jdbcType="VARCHAR"/>
+        <result column="user_id" property="userId" jdbcType="INTEGER"/>
+        <result column="is_check" property="isCheck" jdbcType="INTEGER"/>
+        <result column="is_read" property="isRead" jdbcType="INTEGER"/>
+    </resultMap>
+
     <select id="getAdmins" resultMap="AdminMap">
         select admin_id,admin_name,power,admin_information from admin
         where is_del=0 and power>#{power}
     </select>
 
+    <!-- 获取用户留言 -->
+    <select id="getComments" resultMap="CommentMap">
+        select comment_id,comment_type,comment_content,submit_time
+        from comment
+        where is_check=0
+        order by submit_time desc
+        limit #{page},#{limit}
+    </select>
+
+    <!-- 获取用户留言（未处理）数量 -->
+    <select id="getCommentsNum" resultType="integer">
+        select count(*) from comment where is_check=0;
+    </select>
+
+    <!-- 回复用户留言 -->
+    <update id="answerComment" parameterType="com.lgz.tutorjava.model.Comment">
+        update comment set answer_content=#{answerContent} , check_time = #{checkTime} , is_check=1 , is_read=0
+        where comment_id=#{commentId};
+    </update>
 </mapper>

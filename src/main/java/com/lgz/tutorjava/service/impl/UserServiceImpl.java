@@ -5,11 +5,13 @@ import com.lgz.tutorjava.model.User;
 import com.lgz.tutorjava.service.UserService;
 import com.lgz.tutorjava.utils.DateUtil;
 import com.lgz.tutorjava.utils.MD5Util;
+import com.lgz.tutorjava.utils.RedisUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,6 +28,12 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserMapper userMapper;
+    /**
+     * redis中存储的过期时间1800s
+     */
+    private static int ExpireTime = 1800;
+    @Resource
+    private RedisUtil redisUtil;
 
     @Override
     public Map<String,Object> userLogin(Map<String,Object> userInfo){
@@ -45,7 +53,7 @@ public class UserServiceImpl implements UserService {
         return loginInfo;
     }
 
-    Map<String,Object> checkLogin(Map<String,Object> user,String password){
+    private Map<String,Object> checkLogin(Map<String,Object> user,String password){
         Map<String,Object> loginInfo = new HashMap<>();
         String flag="false";
         try {

@@ -3,7 +3,7 @@ mybatis:
 spring:
   datasource:
     name: jiajiao
-    url: jdbc:mysql://localhost:3306/jiajiao?serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/jiajiao?serverTimezone=Asia/Shanghai&characterEncoding=UTF8
     username: root
     password: wasd2333
     driver-class-name: com.mysql.cj.jdbc.Driver
