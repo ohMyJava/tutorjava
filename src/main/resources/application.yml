@@ -29,6 +29,8 @@ spring:
         max-active: 100
         max-idle: 20
         min-idle: 0
+    timeout: 1000
+
 
 logging:
   config: classpath:logback.xml

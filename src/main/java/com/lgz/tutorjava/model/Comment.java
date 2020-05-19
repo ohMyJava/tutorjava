@@ -8,6 +8,7 @@ package com.lgz.tutorjava.model;
 public class Comment {
     private Integer commentId;
     private Integer commentType;
+    private String commentTypeName;
     private String commentContent;
     private String answerContent;
     private String submitTime;
@@ -94,11 +95,20 @@ public class Comment {
         this.isRead = isRead;
     }
 
+    public String getCommentTypeName() {
+        return commentTypeName;
+    }
+
+    public void setCommentTypeName(String commentTypeName) {
+        this.commentTypeName = commentTypeName;
+    }
+
     @Override
     public String toString() {
         return "Comment{" +
                 "commentId=" + commentId +
                 ", commentType=" + commentType +
+                ", commentTypeName='" + commentTypeName + '\'' +
                 ", commentContent='" + commentContent + '\'' +
                 ", answerContent='" + answerContent + '\'' +
                 ", submitTime='" + submitTime + '\'' +

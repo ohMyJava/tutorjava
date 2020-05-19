@@ -13,6 +13,7 @@
         <result column="is_read" property="isRead" jdbcType="INTEGER"/>
     </resultMap>
 
+
     <insert id="addComment" parameterType="com.lgz.tutorjava.model.Comment">
         insert into comment ( comment_type, comment_content, submit_time, user_id, is_check)
         values (#{comment.commentType},#{comment.commentContent},#{comment.submitTime},#{comment.userId},0)
