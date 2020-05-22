@@ -23,6 +23,7 @@ spring:
   redis:
     host: localhost
     port: 6379
+    password: Kedauis@888
     jedis:
       pool:
         max-wait: 30000

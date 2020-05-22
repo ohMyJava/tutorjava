@@ -1,11 +1,13 @@
 package com.lgz.tutorjava.model;
 
+import java.io.Serializable;
+
 /**
  * @author lgz
  * @date 2020/3/30 21:47
  * 管理员类，继承了User类
  */
-public class Admin{
+public class Admin implements Serializable {
     private Integer adminId;
     private String adminName;
     private String adminPassword;

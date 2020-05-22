@@ -1,5 +1,6 @@
 package com.lgz.tutorjava.service.impl;
 
+import com.lgz.tutorjava.config.RedisConfig;
 import com.lgz.tutorjava.dao.UserMapper;
 import com.lgz.tutorjava.model.User;
 import com.lgz.tutorjava.service.UserService;
@@ -50,34 +51,37 @@ public class UserServiceImpl implements UserService {
             Map<String,Object> tempAdmin =userMapper.adminLoginCheck(userInfo.get("username").toString());
             loginInfo=checkLogin(tempAdmin,password);
         }
+        loginInfo.put("type",type);
         return loginInfo;
     }
 
     private Map<String,Object> checkLogin(Map<String,Object> user,String password){
         Map<String,Object> loginInfo = new HashMap<>();
         String flag="false";
+        String username = user.get("userName").toString();
         try {
             if (user.get("password").toString().equals(password)){
                 loginInfo.put("message","登录成功！");
                 flag="true";
                 loginInfo.put("flag",flag);
-                loginInfo.put("username",user.get("username"));
-                loginInfo.put("token","ok");
+                loginInfo.put("username",username);
+                String token = MD5Util.enToken(username);
+                loginInfo.put("token",token);
+                //token信息存入redis数据库，失效时间为6000s
+                redisUtil.set(username,token);
+                redisUtil.expire(username,6000);
             }else {
                 loginInfo.put("message","密码错误！");
                 loginInfo.put("flag",flag);
-                loginInfo.put("token","ok");
             }
         }catch (NullPointerException e){
             System.err.println(e);
             loginInfo.put("message","用户名不存在");
             loginInfo.put("flag",flag);
-            loginInfo.put("token","ok");
         }catch (Exception e){
             System.err.println("其他错误");
             loginInfo.put("message","客户端操作异常");
             loginInfo.put("flag",flag);
-            loginInfo.put("token","ok");
         }
         return loginInfo;
     }
@@ -127,4 +131,6 @@ public class UserServiceImpl implements UserService {
     public Integer delUser(String delList){
         return userMapper.delUser(DateUtil.currDate(),delList);
     }
+
+
 }

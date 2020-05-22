@@ -1,5 +1,6 @@
 package com.lgz.tutorjava.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -7,7 +8,7 @@ import java.util.Date;
  * @date 2020/3/30 21:44
  * 用户类
  */
-public class User {
+public class User implements Serializable {
     private Integer userId;
     private String userName;
     private String password;
