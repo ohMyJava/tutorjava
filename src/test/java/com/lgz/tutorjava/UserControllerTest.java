@@ -33,4 +33,12 @@ public class UserControllerTest {
             System.out.println("ok"+i);
         }
     }
+
+    @Test
+    void test(){
+        String token = " tutor19 00290 ";
+        String token1 = token.trim();
+        System.out.println(token1);
+        System.out.println(token1.substring(5));
+    }
 }
