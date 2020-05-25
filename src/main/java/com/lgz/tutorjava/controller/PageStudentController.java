@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -25,17 +26,25 @@ public class PageStudentController {
     private PageStudentService pageStudentService;
 
     @PostMapping("/getStudents")
-    public Message getStudents(@RequestBody String json){
+    public Message getStudents(@RequestBody String json, HttpServletRequest request){
         Message msg=Message.getInstance();
         try {
             Map<String,Object> map= JsonUtil.jsonToMap(json);
             String able=map.get("able").toString();
             String grade=map.get("grade").toString();
             String location=map.get("location").toString();
+            boolean flag = true;
+            //如果token为空，则证明用户未登录，因此需对数据及参数进行处理
+            if (request.getHeader("token")!=null){
+                able="";
+                grade="";
+                location="";
+                flag=false;
+            }
             Integer page=(Integer)map.get("page");
             Integer limit=(Integer)map.get("limit");
 
-            msg.setData(pageStudentService.getStudents(able,grade,location,page,limit));
+            msg.setData(pageStudentService.getStudents(able,grade,location,page,limit,flag));
             msg.setInfo("6666","查询所有学生成功");
             LOGGER.info("查询所有学生成功");
         }catch(Exception e){
@@ -46,10 +55,14 @@ public class PageStudentController {
     }
 
     @GetMapping("/getOneStudent")
-    public Message getOneStudent(Integer studentId){
+    public Message getOneStudent(Integer studentId,HttpServletRequest request){
         Message msg = Message.getInstance();
         try {
-            msg.setData(pageStudentService.getOneStudent(studentId));
+            boolean flag =true;
+            if (request.getHeader("token")==null){
+                flag=false;
+            }
+            msg.setData(pageStudentService.getOneStudent(studentId,flag));
             msg.setInfo("6666","查询成功");
             LOGGER.info("查询学生信息成功"+studentId);
         }catch(Exception e){

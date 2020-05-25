@@ -18,7 +18,9 @@ public class PageTutorServiceImpl implements PageTutorService {
     private PageTutorMapper pageTutorMapper;
 
     @Override
-    public List<Tutor> getTutors(String able,String school,String location,Integer page,Integer limit){
+    public List<Tutor> getTutors(String able,String school,
+                                 String location,Integer page,
+                                 Integer limit,boolean flag){
         page=(page-1)*limit;
         List<Tutor> list = pageTutorMapper.getTutors(able,school,location,page,limit);
         for (int i=0;i<list.size();i++){
@@ -27,25 +29,29 @@ public class PageTutorServiceImpl implements PageTutorService {
             tutor.setTutorName(tutor.getTutorName().substring(0,1).concat("教员"));
 
             //如果未登录，则进行学历和所在地信息处理
-            //学历处理
-            String schoolInfo=tutor.getTutorSchool();
-            tutor.setTutorSchool("****".concat(schoolInfo.substring(schoolInfo.length()-2,schoolInfo.length())));
-            //所在地点隐藏
-            tutor.setTutorLocation(tutor.getTutorLocation().substring(0,3).concat("**市**区"));
+            if (!flag){
+                //学历处理
+                String schoolInfo=tutor.getTutorSchool();
+                tutor.setTutorSchool("****".concat(schoolInfo.substring(schoolInfo.length()-2,schoolInfo.length())));
+                //所在地点隐藏
+                tutor.setTutorLocation(tutor.getTutorLocation().substring(0,3).concat("**市**区"));
+            }
         }
         return list;
     }
 
     @Override
-    public Tutor getOneTutor(Integer tutorId){
+    public Tutor getOneTutor(Integer tutorId,boolean flag){
         Tutor tutor=pageTutorMapper.getOneTutor(tutorId);
         //如果当前用户未登录，则隐藏教育信息、所在地；否则只隐藏姓名和手机号
-        //教育信息隐藏
-        String school=tutor.getTutorSchool();
-        tutor.setTutorSchool("****".concat(school.substring(school.length()-2,school.length())));
-        //所在地点隐藏
-        String location=tutor.getTutorLocation();
-        tutor.setTutorLocation(location.substring(0,3).concat("**市**区"));
+        if (!flag){
+            //教育信息隐藏
+            String school=tutor.getTutorSchool();
+            tutor.setTutorSchool("****".concat(school.substring(school.length()-2,school.length())));
+            //所在地点隐藏
+            String location=tutor.getTutorLocation();
+            tutor.setTutorLocation(location.substring(0,3).concat("**市**区"));
+        }
 
         //家教姓名改为：姓氏+**
         tutor.setTutorName(tutor.getTutorName().substring(0,1).concat("教员"));

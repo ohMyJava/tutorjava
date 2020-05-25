@@ -4,6 +4,7 @@ import com.lgz.tutorjava.model.User;
 import com.lgz.tutorjava.service.UserService;
 import com.lgz.tutorjava.utils.JsonUtil;
 import com.lgz.tutorjava.utils.Message;
+import com.sun.prism.impl.BaseMesh;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -198,6 +199,21 @@ public class UserController {
         }catch (Exception e){
             LOGGER.info("删除用户出现异常！"+e.getMessage());
             msg.setInfo("7777","删除用户出现异常!");
+        }
+        return msg;
+    }
+
+    @GetMapping("loginout")
+    public Message loginOut(HttpServletRequest request){
+        Message msg = Message.getInstance();
+        try {
+            String userName = request.getHeader("userName");
+            userService.loginOut(userName);
+            msg.setInfo("6666","退出成功！");
+            LOGGER.info("用户"+userName+"退出成功！");
+        }catch (Exception e){
+            msg.setInfo("7777","退出失败，请重试！");
+            LOGGER.info("用户退出登录操作出现异常"+e.getMessage());
         }
         return msg;
     }

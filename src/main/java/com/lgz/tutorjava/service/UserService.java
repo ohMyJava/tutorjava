@@ -31,4 +31,7 @@ public interface UserService {
     Integer getNumbers(String condition);
 
     Integer delUser(String delList);
+
+    void loginOut(String userName);
+
 }

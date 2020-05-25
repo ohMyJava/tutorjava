@@ -65,6 +65,7 @@ public class UserServiceImpl implements UserService {
                 flag="true";
                 loginInfo.put("flag",flag);
                 loginInfo.put("username",username);
+                loginInfo.put("id",user.get("id"));
                 String token = MD5Util.enToken(username);
                 loginInfo.put("token",token);
                 //token信息存入redis数据库，失效时间为6000s
@@ -132,5 +133,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.delUser(DateUtil.currDate(),delList);
     }
 
+    @Override
+    public void loginOut(String userName){
+        redisUtil.del(userName);
+    }
 
 }

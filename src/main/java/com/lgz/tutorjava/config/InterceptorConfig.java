@@ -1,5 +1,6 @@
 package com.lgz.tutorjava.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -14,6 +15,11 @@ import java.util.List;
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
 
+    @Bean
+    public Interceptor interceptor(){
+        return new Interceptor();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry){
         //放行请求集合
@@ -24,6 +30,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
         excludePatterns.add("/user/login");
         excludePatterns.add("/user/register");
 
-        registry.addInterceptor(new Interceptor()).addPathPatterns("/**").excludePathPatterns(excludePatterns);
+        registry.addInterceptor(interceptor()).addPathPatterns("/**").excludePathPatterns(excludePatterns);
     }
 }

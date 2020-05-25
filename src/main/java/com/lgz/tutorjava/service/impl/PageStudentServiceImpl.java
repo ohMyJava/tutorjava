@@ -19,33 +19,38 @@ public class PageStudentServiceImpl implements PageStudentService {
     private PageStudentMapper pageStudentMapper;
 
     @Override
-    public List<Student> getStudents(String able,String grade,String location,Integer page,Integer limit){
+    public List<Student> getStudents(String able,String grade,String location,
+                                     Integer page,Integer limit,boolean flag){
         page=(page-1)*limit;
         List<Student> list = pageStudentMapper.getStudents(able,grade,location,page,limit);
         for (int i=0;i<list.size();i++){
             Student student=list.get(i);
             //姓名处理
             student.setStudentName(student.getStudentName().substring(0,1).concat("学员"));
-
             //如果未登录，则进行年级和所在地信息处理
-            //年级处理
-            student.setStudentGrade("****");
-            //所在地点隐藏
-            student.setExpectTutorLocation(student.getExpectTutorLocation().substring(0,3).concat("**市**区"));
+            if (!flag){
+                //年级处理
+                student.setStudentGrade("****");
+                //所在地点隐藏
+                student.setExpectTutorLocation(
+                        student.getExpectTutorLocation().substring(0,3).concat("**市**区"));
+            }
         }
         return list;
     }
 
     @Override
-    public Student getOneStudent(Integer studentId){
+    public Student getOneStudent(Integer studentId,boolean flag){
         Student student=pageStudentMapper.getOneStudent(studentId);
         //如果当前用户未登录，则隐藏教育信息、所在地；否则只隐藏姓名和手机号
-        //教育信息隐藏
-        String grade = student.getStudentGrade();
-        student.setStudentGrade("****");
-        //所在地点隐藏
-        String location=student.getExpectTutorLocation();
-        student.setExpectTutorLocation(location.substring(0,3).concat("**市**区"));
+        if (!flag){
+            //教育信息隐藏
+            String grade = student.getStudentGrade();
+            student.setStudentGrade("****");
+            //所在地点隐藏
+            String location=student.getExpectTutorLocation();
+            student.setExpectTutorLocation(location.substring(0,3).concat("**市**区"));
+        }
 
         //隐藏联系方式、姓名
         StringBuilder phoneNumber=new StringBuilder(student.getPhoneNumber());
