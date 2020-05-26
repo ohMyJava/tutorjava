@@ -24,10 +24,10 @@ public class InterceptorConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry){
         //放行请求集合
         List<String> excludePatterns = new ArrayList<>();
+        excludePatterns.add("/user/login");
         excludePatterns.add("/studentPage/*");
         excludePatterns.add("/tutorPage/*");
         excludePatterns.add("/articlePage/*");
-        excludePatterns.add("/user/login");
         excludePatterns.add("/user/register");
 
         registry.addInterceptor(interceptor()).addPathPatterns("/**").excludePathPatterns(excludePatterns);

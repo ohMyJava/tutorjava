@@ -54,4 +54,14 @@
             and expect_tutor_location like '%${location}%'
         </if>
     </select>
+
+    <insert id="invite" parameterType="map">
+        insert into order_temp(user_id, student_id, tutor_id, invited_category, time)
+        values (#{userId,jdbcType=INTEGER},#{stuId,jdbcType=INTEGER},#{tutorId,jdbcType=INTEGER},
+                1,#{time,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="getUserTutor" resultType="map">
+        select tutor_id,tutor_name from tutor where user_name=#{userName}
+    </select>
 </mapper>

@@ -58,4 +58,14 @@
             and tutor_location like '%${location}%'
         </if>
     </select>
+
+    <insert id="invited" parameterType="map">
+        insert into order_temp (user_id, student_id, tutor_id, invited_category, time)
+        values (#{userId,jdbcType=INTEGER},#{stuId,jdbcType=INTEGER},#{tutorId,jdbcType=INTEGER},
+                2,#{time,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="getUserStudent" resultType="map">
+        select student_id,student_name from student where user_name=#{userName}
+    </select>
 </mapper>

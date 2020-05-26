@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lgz
@@ -22,4 +23,8 @@ public interface PageTutorMapper {
     Integer getNumbers(@Param("able") String able,
                        @Param("school") String school,
                        @Param("location") String location);
+
+    Integer invited(Map<String,Object> map);
+
+    List<Map<String,Object>> getUserStudent(String userName);
 }

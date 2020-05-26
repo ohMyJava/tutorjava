@@ -18,4 +18,19 @@
         insert into comment ( comment_type, comment_content, submit_time, user_id, is_check)
         values (#{comment.commentType},#{comment.commentContent},#{comment.submitTime},#{comment.userId},0)
     </insert>
+
+    <!-- 获取家教学生之间邀请答复信息情况 -->
+    <select id="replyInfo" resultType="map">
+        select o.id as id,s.student_name as studentName,
+               t.tutor_name as tutorName,o.invited_category as type,
+               o.time as time
+        from order_temp o
+        left join student s on s.student_id=o.student_id
+        left join tutor t on t.tutor_id=o.tutor_id
+        where o.is_reply=0 and o.user_id=#{userId}
+        group by type
+        order by o.time asc
+    </select>
+
+    <!-- ppp -->
 </mapper>

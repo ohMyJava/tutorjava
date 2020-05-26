@@ -3,6 +3,7 @@ package com.lgz.tutorjava.service;
 import com.lgz.tutorjava.model.Student;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lgz
@@ -15,4 +16,8 @@ public interface PageStudentService {
     Student getOneStudent(Integer studentId,boolean flag);
 
     Integer getNumbers(String able,String grade,String location);
+
+    Integer invite(Map<String,Object> map);
+
+    String getUserTutor(String userName);
 }

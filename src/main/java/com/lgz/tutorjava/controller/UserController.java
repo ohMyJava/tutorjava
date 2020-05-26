@@ -22,7 +22,7 @@ import java.util.Map;
  * 用户控制层：登录、注册
  */
 @RestController
-@RequestMapping({"/user"})
+@RequestMapping("user")
 @CrossOrigin
 public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -37,7 +37,6 @@ public class UserController {
      */
     @PostMapping(value="/login")
     @ResponseBody
-    @CrossOrigin
     public Map<String,Object> login(@RequestBody Map<String,Object> user){
         System.out.println(user.get("username"));
         System.out.println(user.get("password"));

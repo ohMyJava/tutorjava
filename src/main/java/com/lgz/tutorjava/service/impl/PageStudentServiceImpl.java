@@ -3,10 +3,13 @@ package com.lgz.tutorjava.service.impl;
 import com.lgz.tutorjava.dao.PageStudentMapper;
 import com.lgz.tutorjava.model.Student;
 import com.lgz.tutorjava.service.PageStudentService;
+import com.lgz.tutorjava.utils.DateUtil;
+import com.lgz.tutorjava.utils.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lgz
@@ -65,4 +68,14 @@ public class PageStudentServiceImpl implements PageStudentService {
         return pageStudentMapper.getNumbers(able,grade,location);
     }
 
+    @Override
+    public Integer invite(Map<String,Object> map){
+        map.put("time",DateUtil.currDate());
+        return pageStudentMapper.invite(map);
+    }
+
+    @Override
+    public String getUserTutor(String userName){
+        return JsonUtil.objectToJson(pageStudentMapper.getUserTutor(userName));
+    }
 }

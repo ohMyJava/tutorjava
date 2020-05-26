@@ -86,4 +86,37 @@ public class PageStudentController {
         }
         return msg;
     }
+
+    @PostMapping("/invited")
+    public Message invited(@RequestBody String json){
+        Message msg = Message.getInstance();
+        try {
+            Map<String,Object> map = JsonUtil.jsonToMap(json);
+            Integer result = pageStudentService.invite(map);
+            if ( result == 1 ){
+                msg.setInfo("6666","邀请成功，等待对方答复！");
+                LOGGER.info("用户申请成为家教成功");
+            }else {
+                msg.setInfo("8888","邀请失败！");
+                LOGGER.info("用户申请成为家教失败");
+            }
+        }catch (Exception e){
+            msg.setInfo("6666","邀请过程出现异常！"+e.getMessage());
+            LOGGER.warn("用户申请成为家教出现异常");
+        }
+        return msg;
+    }
+
+    @GetMapping("/getUserTutor")
+    public Message getUserTutor(String userName){
+        Message msg = Message.getInstance();
+        try {
+            msg.setData(pageStudentService.getUserTutor(userName));
+            msg.setInfo("6666","获取用户家教列表成功！");
+            LOGGER.info("获取用户家教列表成功!");
+        }catch (Exception e){
+            msg.setInfo("7777","获取用户家教列表出现异常"+e.getMessage());
+        }
+        return msg;
+    }
 }
