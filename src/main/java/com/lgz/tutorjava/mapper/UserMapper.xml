@@ -16,7 +16,7 @@
     </resultMap>
 
     <select id="userLoginCheck" resultType="java.util.Map" >
-        select user_id as id,user_name,password from user where user_name=#{userName};
+        select user_id as id,user_name as userName,password from user where user_name=#{userName};
     </select>
 
     <select id="adminLoginCheck" resultType="java.util.Map" >

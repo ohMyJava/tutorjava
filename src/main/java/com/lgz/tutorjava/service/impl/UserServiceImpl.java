@@ -5,6 +5,7 @@ import com.lgz.tutorjava.dao.UserMapper;
 import com.lgz.tutorjava.model.User;
 import com.lgz.tutorjava.service.UserService;
 import com.lgz.tutorjava.utils.DateUtil;
+import com.lgz.tutorjava.utils.JsonUtil;
 import com.lgz.tutorjava.utils.MD5Util;
 import com.lgz.tutorjava.utils.RedisUtil;
 import org.slf4j.Logger;
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService {
 
         if (userType.equals(type)){
             Map<String,Object> tempUser =userMapper.userLoginCheck(userInfo.get("username").toString());
+            LOGGER.info(JsonUtil.objectToJson(tempUser));
             loginInfo=checkLogin(tempUser,password);
         }else if (adminType.equals(type)){
             Map<String,Object> tempAdmin =userMapper.adminLoginCheck(userInfo.get("username").toString());
