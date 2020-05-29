@@ -1,12 +1,15 @@
 package com.lgz.tutorjava.service.impl;
 
 import com.lgz.tutorjava.dao.PageTutorMapper;
+import com.lgz.tutorjava.dao.StudentMapper;
+import com.lgz.tutorjava.dao.TutorMapper;
 import com.lgz.tutorjava.model.Tutor;
 import com.lgz.tutorjava.service.PageTutorService;
 import com.lgz.tutorjava.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +21,10 @@ import java.util.Map;
 public class PageTutorServiceImpl implements PageTutorService {
     @Autowired
     private PageTutorMapper pageTutorMapper;
+    @Autowired
+    private StudentMapper studentMapper;
+    @Autowired
+    private TutorMapper tutorMapper;
 
     @Override
     public List<Tutor> getTutors(String able,String school,
@@ -70,8 +77,22 @@ public class PageTutorServiceImpl implements PageTutorService {
 
     @Override
     public Integer invite(Map<String,Object> map){
-        map.put("time", DateUtil.currDate());
-        return pageTutorMapper.invited(map);
+        int stuId = (Integer) map.get("stuId");
+        int tutorId = (Integer)map.get("tutorId");
+        int useId = tutorMapper.getUserIdByTutorId(tutorId);
+        map.put("invitedUserId",useId);
+        //type、content、isRead、time
+        map.put("type",1);
+        map.put("isRead",0);
+        map.put("time",DateUtil.currDate());
+        //对内容进行处理
+        //根据二者id查出对应姓名
+        String studentName = studentMapper.getStudentNameById(stuId);
+        String tutorName = tutorMapper.getTutorNameById(tutorId);
+        String content = "学生"+studentName+"向您的家教"+tutorName+"发出邀请。";
+        map.put("content",content);
+
+        return pageTutorMapper.invite(map);
     }
 
     @Override

@@ -81,4 +81,13 @@
             and student_name like '%${condition}%'
         </if>
     </select>
+
+    <select id="getStudentNameById" resultType="string">
+        select student_name from student where student_id = #{studentId}
+    </select>
+
+    <select id="getUserIdByStudentId" resultType="integer">
+        select user_id from user,student
+        where student_id=#{studentId} and student.user_name=user.user_name
+    </select>
 </mapper>

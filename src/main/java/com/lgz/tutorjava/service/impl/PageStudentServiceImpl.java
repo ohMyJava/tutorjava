@@ -1,6 +1,8 @@
 package com.lgz.tutorjava.service.impl;
 
 import com.lgz.tutorjava.dao.PageStudentMapper;
+import com.lgz.tutorjava.dao.StudentMapper;
+import com.lgz.tutorjava.dao.TutorMapper;
 import com.lgz.tutorjava.model.Student;
 import com.lgz.tutorjava.service.PageStudentService;
 import com.lgz.tutorjava.utils.DateUtil;
@@ -20,6 +22,10 @@ public class PageStudentServiceImpl implements PageStudentService {
 
     @Autowired
     private PageStudentMapper pageStudentMapper;
+    @Autowired
+    private StudentMapper studentMapper;
+    @Autowired
+    private TutorMapper tutorMapper;
 
     @Override
     public List<Student> getStudents(String able,String grade,String location,
@@ -70,7 +76,19 @@ public class PageStudentServiceImpl implements PageStudentService {
 
     @Override
     public Integer invite(Map<String,Object> map){
+        //type、content、isRead、time
+        map.put("type",1);
+        map.put("isRead",0);
         map.put("time",DateUtil.currDate());
+
+        int stuId = (Integer) map.get("stuId");
+        int tutorId = (Integer)map.get("tutorId");
+        int userId = studentMapper.getUserIdByStudentId(stuId);
+        map.put("invitedUserId",userId);
+        String studentName = studentMapper.getStudentNameById(stuId);
+        String tutorName = tutorMapper.getTutorNameById(tutorId);
+        String content = "家教"+tutorName+"向您的学生"+studentName+"发出邀请";
+        map.put("content",content);
         return pageStudentMapper.invite(map);
     }
 

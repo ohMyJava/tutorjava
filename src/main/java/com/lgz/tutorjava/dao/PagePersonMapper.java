@@ -1,6 +1,7 @@
 package com.lgz.tutorjava.dao;
 
 import com.lgz.tutorjava.model.Comment;
+import com.lgz.tutorjava.model.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -17,4 +18,16 @@ public interface PagePersonMapper {
     int addComment(@Param("comment") Comment comment);
 
     List<Map<String,Object>> replyInfo(Integer userId);
+
+    int updateMyInfo(User user);
+
+    User getMyInfo(Integer userId);
+
+    List<Comment> commentInfo(Integer userId);
+
+    Integer setIsRead(Integer commentId);
+
+    Integer setInviteIsRead(Integer id);
+
+    Map<String,Object> getOneInviteRecord(Integer id);
 }

@@ -28,4 +28,8 @@ public interface TutorMapper {
     int addTutor(@Param("tutor") Tutor tutor);
 
     int modifyTutor(@Param("tutor") Tutor tutor);
+
+    String getTutorNameById(Integer tutorId);
+
+    Integer getUserIdByTutorId(Integer tutorId);
 }

@@ -87,7 +87,7 @@ public class PageStudentController {
         return msg;
     }
 
-    @PostMapping("/invited")
+    @PostMapping("/invite")
     public Message invited(@RequestBody String json){
         Message msg = Message.getInstance();
         try {

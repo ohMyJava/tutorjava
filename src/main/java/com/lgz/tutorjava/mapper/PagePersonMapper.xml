@@ -21,16 +21,42 @@
 
     <!-- 获取家教学生之间邀请答复信息情况 -->
     <select id="replyInfo" resultType="map">
-        select o.id as id,s.student_name as studentName,
-               t.tutor_name as tutorName,o.invited_category as type,
-               o.time as time
-        from order_temp o
-        left join student s on s.student_id=o.student_id
-        left join tutor t on t.tutor_id=o.tutor_id
-        where o.is_reply=0 and o.user_id=#{userId}
-        group by type
-        order by o.time asc
+        select id,type,content,time from invite_and_reply
+        where invited_user_id=#{userId} and is_read=0
+        order by time asc
     </select>
 
-    <!-- ppp -->
+    <update id="updateMyInfo" parameterType="com.lgz.tutorjava.model.User">
+        update user set password=#{password},name=#{name},sex=#{sex},age=#{age},
+                        phone_number=#{phoneNumber},update_time=#{updateTime}
+        where user_id =#{userId}
+    </update>
+
+    <select id="getMyInfo" resultType="com.lgz.tutorjava.model.User">
+        select id,user_name,password,name,sex,age,phone_number from user
+        where is_del=0 and user_id=#{userId}
+    </select>
+
+    <select id="commentInfo" resultMap="CommentMap">
+        select comment_id,comment_type,comment_content,answer_content,check_time from comment
+        where user_id=#{userId} and is_check = 1 and is_read = 0;
+    </select>
+
+    <!-- 标识为此条消息用户已读 -->
+    <update id="setIsRead">
+        update comment set is_read=1 where comment_id=#{commentId}
+    </update>
+
+    <!-- 邀请回复表中一条记录设为已读 -->
+    <update id="setInviteIsRead">
+        update invite_and_reply set is_read=1 where id=#{id}
+    </update>
+
+    <!-- 查询一条邀请回复记录 -->
+    <select id="getOneInviteRecord" resultType="map">
+        select student_id,tutor_id,invite_user_id,invited_user_id
+        from invite_and_reply
+        where id=#{id}
+    </select>
+
 </mapper>

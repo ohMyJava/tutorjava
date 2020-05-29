@@ -24,7 +24,7 @@ public interface PageTutorMapper {
                        @Param("school") String school,
                        @Param("location") String location);
 
-    Integer invited(Map<String,Object> map);
+    Integer invite(Map<String,Object> map);
 
     List<Map<String,Object>> getUserStudent(String userName);
 }

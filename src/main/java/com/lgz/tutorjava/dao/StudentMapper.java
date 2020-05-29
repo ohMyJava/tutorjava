@@ -28,4 +28,8 @@ public interface StudentMapper {
     Student getStudent(Integer studentId);
 
     int studentNumber(@Param("condition") String condition);
+
+    String getStudentNameById(Integer studentId);
+
+    Integer getUserIdByStudentId(Integer studentId);
 }
