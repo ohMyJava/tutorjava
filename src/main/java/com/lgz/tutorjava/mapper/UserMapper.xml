@@ -24,8 +24,8 @@
     </select>
 
     <insert id="register" parameterType="com.lgz.tutorjava.model.User">
-        insert into user (user_name,password,name,age,sex,phone_number,reg_time)
-        values (#{user.userName},#{user.password},#{user.name},#{user.age},#{user.sex},#{user.phoneNumber},#{user.regTime});
+        insert into user (user_name,password,name,age,sex,phone_number,reg_time,is_del)
+        values (#{user.userName},#{user.password},#{user.name},#{user.age},#{user.sex},#{user.phoneNumber},#{user.regTime},0);
     </insert>
 
     <select id="userNameCheck" resultType="int">

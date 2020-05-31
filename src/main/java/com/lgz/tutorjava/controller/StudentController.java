@@ -19,7 +19,7 @@ import java.util.*;
  * 学生控制层
  */
 @RestController
-@RequestMapping("student")
+@RequestMapping("/student")
 @CrossOrigin
 public class StudentController {
 
@@ -35,9 +35,9 @@ public class StudentController {
      * @param condition 模糊查询条件，可为空
      * @return msg
      */
-    @GetMapping("getStudents")
+    @GetMapping("/getStudents")
     public Message getStudentList(@Param("limit") Integer limit,@Param("page") Integer page,@Param("condition") String condition){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             //根据分页+模糊查询学生列表，未实现！
             msg.setData(studentService.getStudentList(limit,page,condition));
@@ -56,9 +56,9 @@ public class StudentController {
      * @param delList 前端删除学生列表，格式为：（id1，id2，id3，...）
      * @return msg
      */
-    @PostMapping("delStudent")
+    @PostMapping("/delStudent")
     public Message delStudent(@RequestBody String delList){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             String list=JsonUtil.jsonToString(delList);
             if (studentService.delStudents(list)>0){
@@ -81,9 +81,9 @@ public class StudentController {
      * @param student 学生对象
      * @return msg
      */
-    @PostMapping("addStudent")
+    @PostMapping("/addStudent")
     public Message addStudent(@RequestBody Student student){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             if (studentService.addStudent(student)==1){
                 msg.setInfo("6666","添加学生信息成功！");
@@ -104,9 +104,9 @@ public class StudentController {
      * @param name 模糊查询条件
      * @return msg
      */
-    @GetMapping("studentBindingUser")
+    @GetMapping("/studentBindingUser")
     public Message selectStudentBindingUser(String name){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             Object obj=studentService.getBindingUser(name);
             LOGGER.info("模糊查询用户姓名成功！");
@@ -129,9 +129,9 @@ public class StudentController {
      * @param student 学生对象
      * @return msg
      */
-    @PostMapping("modifyStudent")
+    @PostMapping("/modifyStudent")
     public Message modifyStudent(@RequestBody Student student){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             if (studentService.modifyStudent(student)==1){
                 msg.setInfo("6666","修改学生信息成功！");
@@ -153,9 +153,9 @@ public class StudentController {
      * @param studentId 学生id
      * @return msg
      */
-    @GetMapping("getOneStudent")
+    @GetMapping("/getOneStudent")
     public Message getOneStudent(Integer studentId){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             Student student=studentService.getStudent(studentId);
             if (student!=null){
@@ -174,9 +174,9 @@ public class StudentController {
         return msg;
     }
 
-    @GetMapping("studentNumber")
+    @GetMapping("/studentNumber")
     public Message studentNumber(String condition){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             int total=studentService.studentNumber(condition);
             msg.setData(total);

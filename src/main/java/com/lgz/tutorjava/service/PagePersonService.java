@@ -1,8 +1,6 @@
 package com.lgz.tutorjava.service;
 
-import com.lgz.tutorjava.model.Comment;
-import com.lgz.tutorjava.model.Order;
-import com.lgz.tutorjava.model.User;
+import com.lgz.tutorjava.model.*;
 
 import java.util.List;
 import java.util.Map;
@@ -24,11 +22,21 @@ public interface PagePersonService {
 
     int updateMyInfo(User user);
 
-    User getMyInfo(Integer userID);
+    User getMyInfo(Integer userId);
 
     List<Map<String,Object>> commentInfo(Integer userId);
 
     Integer setIsRead(Integer commentId);
 
-    Boolean agree(Integer id);
+    boolean agree(Integer id);
+
+    boolean refuse(Integer id);
+
+    List<Map<String,Object>> getMyStudents(Integer userId);
+
+    List<Map<String,Object>> getMyTutors(Integer userId);
+
+    List<Map<String,Object>> getMyOrders(Integer userId);
+
+    Integer setInviteInfoIsRead(Integer inviteId);
 }

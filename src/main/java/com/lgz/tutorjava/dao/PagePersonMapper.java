@@ -30,4 +30,6 @@ public interface PagePersonMapper {
     Integer setInviteIsRead(Integer id);
 
     Map<String,Object> getOneInviteRecord(Integer id);
+
+    List<Map<String,Object>> getMyOrders(Integer userId);
 }

@@ -27,15 +27,19 @@ public class PageTutorController {
 
     @PostMapping("/getTutors")
     public Message getTutors(@RequestBody String json, HttpServletRequest request){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             Map<String,Object> params= JsonUtil.jsonToMap(json);
+            LOGGER.info(json);
             String able=params.get("able").toString();
             String school=params.get("school").toString();
             String location=params.get("location").toString();
+            LOGGER.info(able);
+            LOGGER.info(school);
+            LOGGER.info(location);
             boolean flag = true;
             //如果token为空，则证明用户未登录，因此需对数据及参数进行处理
-            if (request.getHeader("token")!=null){
+            if (request.getHeader("token")==null){
                 able="";
                 school="";
                 location="";
@@ -54,7 +58,7 @@ public class PageTutorController {
 
     @GetMapping("/getOneTutor")
     public Message getOneTutor(Integer tutorId,HttpServletRequest request){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             boolean flag = true;
             if (request.getHeader("token")==null){
@@ -72,7 +76,7 @@ public class PageTutorController {
 
     @GetMapping("/getNumbers")
     public Message getNumbers(@Param("able") String able,@Param("school") String school,@Param("location") String location){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             msg.setData(pageTutorService.getNumbers(able,school,location));
             msg.setInfo("6666","查询成功");
@@ -86,7 +90,7 @@ public class PageTutorController {
 
     @PostMapping("/invite")
     public Message invite(@RequestBody String json){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             Map<String,Object> map = JsonUtil.jsonToMap(json);
             Integer result = pageTutorService.invite(map);
@@ -105,11 +109,12 @@ public class PageTutorController {
 
     @GetMapping("/getUserStudent")
     public Message getUserStudent(String userName){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             msg.setData(pageTutorService.getUserStudent(userName));
             msg.setInfo("6666","查询用户学生列表成功！");
             LOGGER.info("查询用户学生列表成功");
+            LOGGER.info(JsonUtil.objectToJson(msg));
         }catch (Exception e){
             LOGGER.warn("查询用户学生列表出现异常！"+e.getMessage());
             msg.setInfo("7777","查询用户列表出现异常！");

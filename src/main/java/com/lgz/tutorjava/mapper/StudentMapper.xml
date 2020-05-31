@@ -90,4 +90,17 @@
         select user_id from user,student
         where student_id=#{studentId} and student.user_name=user.user_name
     </select>
+
+    <!-- 根据用户id获取该用户的所有学生信息 -->
+    <select id="getStudentsByUserId" resultType="map">
+        select t.tutor_name as tutorName,s.student_id as studentId,s.student_name as name,s.student_age as age,
+               s.student_sex as sex,s.student_grade as grade,s.student_subject as subject,
+               s.phone_number as phoneNumber,s.expect_tutor_able as course,s.expect_tutor_location as location,
+               ifnull(s.student_hobby,'未填写') as hobby
+        from student s
+        left join dingdan d on s.student_id=d.student_id
+        left join tutor t on t.tutor_id=d.tutor_id
+        where d.tutor_user_id=#{userId}
+    </select>
+
 </mapper>

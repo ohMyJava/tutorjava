@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
         String flag="false";
         String username = user.get("userName").toString();
         try {
-            if (user.get("password").toString().equals(password)){
+            if (user.get("password").toString().equals(MD5Util.md5(password,"aaa"))){
                 loginInfo.put("message","登录成功！");
                 flag="true";
                 loginInfo.put("flag",flag);

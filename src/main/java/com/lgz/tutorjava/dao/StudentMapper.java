@@ -32,4 +32,6 @@ public interface StudentMapper {
     String getStudentNameById(Integer studentId);
 
     Integer getUserIdByStudentId(Integer studentId);
+
+    List<Map<String,Object>> getStudentsByUserId(Integer userId);
 }

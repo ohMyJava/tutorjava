@@ -65,6 +65,6 @@
     </insert>
 
     <select id="getUserTutor" resultType="map">
-        select tutor_id,tutor_name from tutor where user_name=#{userName}
+        select tutor_id as id,tutor_name as name from tutor where user_name=#{userName}
     </select>
 </mapper>

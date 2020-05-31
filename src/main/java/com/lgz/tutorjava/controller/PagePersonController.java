@@ -3,6 +3,7 @@ package com.lgz.tutorjava.controller;
 import com.lgz.tutorjava.model.Comment;
 import com.lgz.tutorjava.model.User;
 import com.lgz.tutorjava.service.PagePersonService;
+import com.lgz.tutorjava.utils.JsonUtil;
 import com.lgz.tutorjava.utils.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +28,9 @@ public class PagePersonController {
     @Autowired
     private PagePersonService pagePersonService;
 
-    @PostMapping("addComment")
+    @PostMapping("/addComment")
     public Message addComment(@RequestBody Comment comment){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             int result = pagePersonService.addComment(comment);
             if (result == 0){
@@ -48,7 +49,7 @@ public class PagePersonController {
 
     @GetMapping("/replyInfo")
     public Message addComment(Integer userId){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             List<Map<String,Object>> result = pagePersonService.replyInfo(userId);
             if (result.isEmpty()){
@@ -60,15 +61,15 @@ public class PagePersonController {
                 LOGGER.info("获取邀请答复消息成功");
             }
         }catch (Exception e){
-            msg.setInfo("7777","获取邀请答复消息时出现异常！"+e.getMessage());
-            LOGGER.warn("获取邀请答复消息时出现异常");
+            msg.setInfo("7777","获取邀请答复消息时出现异常！");
+            LOGGER.warn("获取邀请答复消息时出现异常"+e.getMessage());
         }
         return msg;
     }
 
-    @PostMapping("updateMyInfo")
+    @PostMapping("/updateMyInfo")
     public Message updateMyInfo(@RequestBody User user){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             int result = pagePersonService.updateMyInfo(user);
             if (result == 1){
@@ -85,18 +86,18 @@ public class PagePersonController {
         return msg;
     }
 
-    @GetMapping("getMyInfo")
+    @GetMapping("/getMyInfo")
     public Message getMyInfo(Integer userId){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         msg.setData(pagePersonService.getMyInfo(userId));
         msg.setInfo("6666","获取用户信息成功");
         LOGGER.info("获取用户信息成功，用户ID为："+userId);
         return msg;
     }
 
-    @GetMapping("commentInfo")
+    @GetMapping("/commentInfo")
     public Message commentInfo(Integer userId){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             List<Map<String,Object>> comments = pagePersonService.commentInfo(userId);
             if (!comments.isEmpty()){
@@ -119,13 +120,20 @@ public class PagePersonController {
      * @param id 留言评论表主键id
      * @return msg
      */
-    @GetMapping("agree")
+    @GetMapping("/agree")
     public Message agree(Integer id){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
-
+            if (pagePersonService.agree(id)){
+                msg.setInfo("6666","已同意");
+                LOGGER.info("已同意，邀请Id为："+id);
+            }else {
+                msg.setInfo("8888","用户同意邀请过程出现问题");
+                LOGGER.info("用户同意邀请过程出现问题");
+            }
         }catch (Exception e){
-
+            msg.setInfo("7777","用户同意邀请过程出现异常");
+            LOGGER.warn("用户同意邀请过程出现异常"+e.getMessage());
         }
         return msg;
     }
@@ -135,13 +143,20 @@ public class PagePersonController {
      * @param id 邀请答复表主键id
      * @return msg
      */
-    @GetMapping("refuse")
+    @GetMapping("/refuse")
     public Message refuse(Integer id){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
-
+            if (pagePersonService.refuse(id)){
+                msg.setInfo("6666","已拒绝");
+                LOGGER.info("邀请被拒绝，邀请Id为："+id);
+            }else {
+                msg.setInfo("8888","用户拒绝邀请过程出现问题");
+                LOGGER.info("用户拒绝邀请过程出现问题");
+            }
         }catch (Exception e){
-
+            msg.setInfo("7777","用户拒绝邀请过程出现异常");
+            LOGGER.warn("用户拒绝邀请过程出现异常"+e.getMessage());
         }
         return msg;
     }
@@ -151,9 +166,9 @@ public class PagePersonController {
      * @param id 留言评论ID
      * @return msg
      */
-    @GetMapping("setIsRead")
+    @GetMapping("/setIsRead")
     public Message setIsRead(Integer id){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             Integer result = pagePersonService.setIsRead(id);
             if (result == 1){
@@ -170,4 +185,74 @@ public class PagePersonController {
         return msg;
     }
 
+    /**
+     * 获取用户对应学生列表
+     * @param userId 用户id
+     * @return msg
+     */
+    @GetMapping("/getMyStudents")
+    public Message getMyStudents(Integer userId){
+        Message msg = new Message();
+        try {
+            msg.setData(pagePersonService.getMyStudents(userId));
+            msg.setInfo("6666","查询用户关联的学生信息成功");
+            LOGGER.info("查询用户关联的学生信息成功，用户id为："+userId);
+        }catch (Exception e){
+            msg.setInfo("7777","查询用户关联的学生信息失败");
+            LOGGER.info("查询用户关联的学生信息出现异常："+e.getMessage());
+        }
+        return msg;
+    }
+
+    /**
+     * 获取用户对应家教列表
+     * @param userId 用户id
+     * @return msg
+     */
+    @GetMapping("/getMyTutors")
+    public Message getMyTutors(Integer userId){
+        Message msg = new Message();
+        try {
+            msg.setData(pagePersonService.getMyTutors(userId));
+            msg.setInfo("6666","查询用户关联的家教信息成功");
+            LOGGER.info("查询用户关联的家教信息成功，用户id为："+userId);
+        }catch (Exception e){
+            msg.setInfo("7777","查询用户关联的家教信息失败");
+            LOGGER.info("查询用户关联的家教信息出现异常："+e.getMessage());
+        }
+        return msg;
+    }
+
+    @GetMapping("/getMyOrders")
+    public Message getMyOrders(Integer userId){
+        Message msg = new Message();
+        try {
+            msg.setData(pagePersonService.getMyOrders(userId));
+            msg.success("查询用户订单成功");
+            LOGGER.info("查询用户订单成功！用户id="+userId);
+        }catch (Exception e){
+            msg.error("查询用户订单失败");
+            LOGGER.warn("查询用户订单出现异常："+e.getMessage());
+        }
+        return msg;
+    }
+
+    @GetMapping("/setInviteInfoIsRead")
+    public Message setInviteInfoIsRead(Integer id){
+        Message msg = new Message();
+        try {
+            Integer result = pagePersonService.setInviteInfoIsRead(id);
+            if (result == 1){
+                msg.setInfo("6666","更新为已读属性成功");
+                LOGGER.info("更新为已读属性成功：ID="+id);
+            }else {
+                msg.setInfo("8888","更新为已读属性失败");
+                LOGGER.info("更新为已读属性失败：ID="+id);
+            }
+        }catch (Exception e){
+            msg.setInfo("7777","更新为已读属性出现异常");
+            LOGGER.info("更新为已读属性出现异常,ID="+id+"，异常为："+e.getMessage());
+        }
+        return msg;
+    }
 }

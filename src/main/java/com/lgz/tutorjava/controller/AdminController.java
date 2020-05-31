@@ -21,16 +21,16 @@ import java.util.Map;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("admin")
+@RequestMapping("/admin")
 public class AdminController {
     private final static Logger LOGGER = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
     private AdminService adminService;
 
-    @GetMapping("getAdmins")
+    @GetMapping("/getAdmins")
     public Message getAdmins(Integer power){
-        Message msg=Message.getInstance();
+       Message msg = new Message();
         try {
             msg.setData(adminService.getAdmins(power));
             msg.setInfo("6666","查询管理员列表成功！");
@@ -43,9 +43,9 @@ public class AdminController {
         return msg;
     }
 
-    @GetMapping("getComments")
+    @GetMapping("/getComments")
     public Message getComments(@Param("page") Integer page,@Param("limit") Integer limit){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         List<Comment> comments = adminService.getComments(page,limit);
         if (comments.size()>0){
             msg.setData(comments);
@@ -57,9 +57,9 @@ public class AdminController {
         return msg;
     }
 
-    @GetMapping("getCommentsNum")
+    @GetMapping("/getCommentsNum")
     public Message getCommentsNum(){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         Integer count = adminService.getCommentsNum();
         msg.setData(count);
         msg.setInfo("6666","获取数量成功");
@@ -67,9 +67,9 @@ public class AdminController {
         return msg;
     }
 
-    @PostMapping("answerComment")
+    @PostMapping("/answerComment")
     public Message answerComment(@RequestBody String json){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         Map map = JsonUtil.jsonToMap(json);
         Integer commentId = (Integer) map.get("commentId");
         String answer = map.get("answer").toString();

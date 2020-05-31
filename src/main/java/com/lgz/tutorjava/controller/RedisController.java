@@ -14,25 +14,25 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("redis")
+@RequestMapping("/redis")
 public class RedisController {
     @Autowired
     private RedisUtil redisUtil;
 
-    @GetMapping("set")
+    @GetMapping("/set")
     public Message set(){
-        Message message = Message.getInstance();
+        Message msg = new Message();
         if (redisUtil.set("token","userId:1;key:tutor")){
-            message.setInfo("6666","OK");
+            msg.setInfo("6666","OK");
         }else {
-            message.setInfo("7777","FAILED");
+            msg.setInfo("7777","FAILED");
         }
-        return message;
+        return msg;
     }
 
-    @GetMapping("get")
+    @GetMapping("/get")
     public Message get(){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             String token = redisUtil.get("token").toString();
             msg.setData(token);

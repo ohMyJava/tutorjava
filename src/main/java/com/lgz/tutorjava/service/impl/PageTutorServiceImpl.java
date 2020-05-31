@@ -6,6 +6,9 @@ import com.lgz.tutorjava.dao.TutorMapper;
 import com.lgz.tutorjava.model.Tutor;
 import com.lgz.tutorjava.service.PageTutorService;
 import com.lgz.tutorjava.utils.DateUtil;
+import com.lgz.tutorjava.utils.JsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,9 @@ import java.util.Map;
  */
 @Service
 public class PageTutorServiceImpl implements PageTutorService {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(PageTutorServiceImpl.class);
+
     @Autowired
     private PageTutorMapper pageTutorMapper;
     @Autowired
@@ -32,6 +38,9 @@ public class PageTutorServiceImpl implements PageTutorService {
                                  Integer limit,boolean flag){
         page=(page-1)*limit;
         List<Tutor> list = pageTutorMapper.getTutors(able,school,location,page,limit);
+        System.out.println("-----------------------------------");
+        LOGGER.info(JsonUtil.objectToJson(list));
+        System.out.println("-----------------------------------");
         for (int i=0;i<list.size();i++){
             Tutor tutor=list.get(i);
             //姓名处理
@@ -46,6 +55,7 @@ public class PageTutorServiceImpl implements PageTutorService {
                 tutor.setTutorLocation(tutor.getTutorLocation().substring(0,3).concat("**市**区"));
             }
         }
+
         return list;
     }
 

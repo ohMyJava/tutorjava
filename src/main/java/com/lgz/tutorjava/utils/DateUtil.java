@@ -3,6 +3,7 @@ package com.lgz.tutorjava.utils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 /**
  * @author lgz
@@ -14,5 +15,12 @@ public class DateUtil {
         Date date=new Date(System.currentTimeMillis());
         DateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(date);
+    }
+
+    public static String orderNumber(){
+        Date date = new Date(System.currentTimeMillis());
+        DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+        Random random = new Random(100);
+        return "A"+df.format(date)+random.toString();
     }
 }

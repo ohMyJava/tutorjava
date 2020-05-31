@@ -15,8 +15,8 @@
 
 
     <insert id="addComment" parameterType="com.lgz.tutorjava.model.Comment">
-        insert into comment ( comment_type, comment_content, submit_time, user_id, is_check)
-        values (#{comment.commentType},#{comment.commentContent},#{comment.submitTime},#{comment.userId},0)
+        insert into comment ( comment_type, comment_content, submit_time, user_id, is_check,is_read)
+        values (#{comment.commentType},#{comment.commentContent},#{comment.submitTime},#{comment.userId},0,0)
     </insert>
 
     <!-- 获取家教学生之间邀请答复信息情况 -->
@@ -33,7 +33,7 @@
     </update>
 
     <select id="getMyInfo" resultType="com.lgz.tutorjava.model.User">
-        select id,user_name,password,name,sex,age,phone_number from user
+        select user_id,user_name,password,name,sex,age,phone_number from user
         where is_del=0 and user_id=#{userId}
     </select>
 
@@ -54,9 +54,17 @@
 
     <!-- 查询一条邀请回复记录 -->
     <select id="getOneInviteRecord" resultType="map">
-        select student_id,tutor_id,invite_user_id,invited_user_id
+        select student_id as studentId,tutor_id as tutorId,invite_user_id as inviteUserId,invited_user_id as invitedUserId
         from invite_and_reply
         where id=#{id}
     </select>
 
+    <select id="getMyOrders" resultType="map">
+        select d.serial as serial,s.student_name as studentName,t.tutor_name as tutorName,d.time as time
+        from dingdan d,tutor t,student s
+        where t.tutor_id=d.tutor_id
+        and s.student_id=d.student_id
+        and d.is_del=0
+        and (d.tutor_user_id=#{userId} or d.student_user_id=#{userId})
+    </select>
 </mapper>

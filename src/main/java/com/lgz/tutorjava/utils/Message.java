@@ -10,12 +10,6 @@ public class Message {
     private String message;
     private Object data;
 
-    private static Message instance=new Message();
-    private Message(){}
-    public static Message getInstance(){
-        return instance;
-    }
-
     public String getCode() {
         return code;
     }
@@ -34,6 +28,14 @@ public class Message {
 
     public void setInfo(String code,String message){
         this.code=code;
+        this.message=message;
+    }
+    public void success(String message){
+        this.code="6666";
+        this.message=message;
+    }
+    public void error(String message){
+        this.code="7777";
         this.message=message;
     }
 }

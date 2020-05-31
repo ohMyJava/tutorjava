@@ -1,7 +1,11 @@
 package com.lgz.tutorjava.dao;
 
 import com.lgz.tutorjava.model.Order;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author lgz
@@ -12,4 +16,10 @@ import org.springframework.stereotype.Repository;
 public interface OrderMapper {
 
     Integer addOrder(Order order);
+
+    List<Map<String,Object>> getOrders(@Param("page") Integer page,
+                                       @Param("limit") Integer limit,
+                                       @Param("condition") String condition);
+
+    Integer getOrdersNum(@Param("condition") String condition);
 }

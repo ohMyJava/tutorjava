@@ -17,16 +17,16 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @CrossOrigin
-@RequestMapping("tutor")
+@RequestMapping("/tutor")
 public class TutorController {
     @Autowired
     private TutorService tutorService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TutorController.class);
 
-    @GetMapping("getTutors")
+    @GetMapping("/getTutors")
     public Message getTutors(Integer limit,Integer page,String condition){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try{
             msg.setData(tutorService.getTutors(limit,page,condition));
             msg.setInfo("6666","查询家教列表成功");
@@ -37,9 +37,9 @@ public class TutorController {
         return msg;
     }
 
-    @GetMapping("tutorNumber")
+    @GetMapping("/tutorNumber")
     public Message tutorNumber(String condition){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             msg.setData(tutorService.tutorNumber(condition));
             msg.setInfo("6666","查询家教数量成功");
@@ -51,9 +51,9 @@ public class TutorController {
         return msg;
     }
 
-    @PostMapping("delTutor")
+    @PostMapping("/delTutor")
     public Message delTutor(@RequestBody String delList){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         System.out.println(delList);
         try {
             if (tutorService.delTutor(delList)>0){
@@ -70,9 +70,9 @@ public class TutorController {
         return msg;
     }
 
-    @GetMapping("getOneTutor")
+    @GetMapping("/getOneTutor")
     public Message getOneTutor(Integer tutorId){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             /*如果查询不到，没做判断*/
             msg.setData(tutorService.getOneTutor(tutorId));
@@ -85,9 +85,9 @@ public class TutorController {
         return msg;
     }
 
-    @PostMapping("addTutor")
+    @PostMapping("/addTutor")
     public Message addTutor(@RequestBody Tutor tutor){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             if (tutorService.addTutor(tutor)==1){
                 msg.setInfo("6666","添加家教成功！");
@@ -103,9 +103,9 @@ public class TutorController {
         return msg;
     }
 
-    @PostMapping("modifyTutor")
+    @PostMapping("/modifyTutor")
     public Message modifyTutor(@RequestBody Tutor tutor){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             if (tutorService.modifyTutor(tutor)==1){
                 msg.setInfo("6666","修改家教信息成功！");

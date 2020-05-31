@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lgz
@@ -32,4 +33,6 @@ public interface TutorMapper {
     String getTutorNameById(Integer tutorId);
 
     Integer getUserIdByTutorId(Integer tutorId);
+
+    List<Map<String,Object>> getTutorsByUserId(Integer userId);
 }

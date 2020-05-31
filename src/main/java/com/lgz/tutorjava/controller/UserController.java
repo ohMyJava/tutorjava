@@ -22,7 +22,7 @@ import java.util.Map;
  * 用户控制层：登录、注册
  */
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 @CrossOrigin
 public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -54,9 +54,9 @@ public class UserController {
      * @return msg
      */
     @PostMapping(value = "/register")
-    public Message register(User user){
+    public Message register(@RequestBody User user){
         System.out.println(user);
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             if (userService.register(user)==1){
                 LOGGER.info("注册成功");
@@ -80,7 +80,7 @@ public class UserController {
      */
     @GetMapping("/uniqueUserName")
     public Message uniqueUserName(String name){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             if (userService.userNameCheck(name)>0){
                 msg.setInfo("8888","用户名不可用！");
@@ -98,9 +98,9 @@ public class UserController {
         return msg;
     }
 
-    @GetMapping("getUsernameList")
+    @GetMapping("/getUsernameList")
     public Message getUsernameList(){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             msg.setData(userService.getUsernameList());
             msg.setInfo("6666","获取用户名列表成功！");
@@ -111,9 +111,9 @@ public class UserController {
         return msg;
     }
 
-    @GetMapping("isTrueUserName")
+    @GetMapping("/isTrueUserName")
     public Message isTrueUserName(String name){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             if (userService.userNameCheck(name)>0){
                 msg.setInfo("6666","用户名存在");
@@ -129,9 +129,9 @@ public class UserController {
         return msg;
     }
 
-    @PostMapping("addUser")
+    @PostMapping("/addUser")
     public Message addUser(@RequestBody User user){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             int result=userService.addUser(user);
             if (result==1){
@@ -150,7 +150,7 @@ public class UserController {
 
     @PostMapping("/getUsers")
     public Message getUsers(@RequestBody String json){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             Map<String,Object> map = JsonUtil.jsonToMap(json);
             String condition=map.get("condition").toString();
@@ -167,9 +167,9 @@ public class UserController {
         return msg;
     }
 
-    @GetMapping("getNumbers")
+    @GetMapping("/getNumbers")
     public Message getNumbers(String condition){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             Integer count = userService.getNumbers(condition);
             msg.setData(count);
@@ -182,9 +182,9 @@ public class UserController {
         return msg;
     }
 
-    @PostMapping("delUser")
+    @PostMapping("/delUser")
     public Message delUser(@RequestBody String delList){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             String list=JsonUtil.jsonToString(delList);
             if (userService.delUser(list)>0){
@@ -202,9 +202,9 @@ public class UserController {
         return msg;
     }
 
-    @GetMapping("loginout")
+    @GetMapping("/loginout")
     public Message loginOut(HttpServletRequest request){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             String userName = request.getHeader("userName");
             userService.loginOut(userName);

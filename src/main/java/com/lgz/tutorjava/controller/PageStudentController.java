@@ -27,7 +27,7 @@ public class PageStudentController {
 
     @PostMapping("/getStudents")
     public Message getStudents(@RequestBody String json, HttpServletRequest request){
-        Message msg=Message.getInstance();
+        Message msg = new Message();
         try {
             Map<String,Object> map= JsonUtil.jsonToMap(json);
             String able=map.get("able").toString();
@@ -56,7 +56,7 @@ public class PageStudentController {
 
     @GetMapping("/getOneStudent")
     public Message getOneStudent(Integer studentId,HttpServletRequest request){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             boolean flag =true;
             if (request.getHeader("token")==null){
@@ -74,7 +74,7 @@ public class PageStudentController {
 
     @GetMapping("/getNumbers")
     public Message getNumbers(@Param("able") String able, @Param("grade") String grade, @Param("location") String location){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             Integer count=pageStudentService.getNumbers(able,grade,location);
             msg.setData(count);
@@ -89,7 +89,7 @@ public class PageStudentController {
 
     @PostMapping("/invite")
     public Message invited(@RequestBody String json){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             Map<String,Object> map = JsonUtil.jsonToMap(json);
             Integer result = pageStudentService.invite(map);
@@ -109,7 +109,7 @@ public class PageStudentController {
 
     @GetMapping("/getUserTutor")
     public Message getUserTutor(String userName){
-        Message msg = Message.getInstance();
+        Message msg = new Message();
         try {
             msg.setData(pageStudentService.getUserTutor(userName));
             msg.setInfo("6666","获取用户家教列表成功！");

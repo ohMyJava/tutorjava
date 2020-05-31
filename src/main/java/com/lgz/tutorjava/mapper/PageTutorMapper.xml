@@ -25,13 +25,13 @@
         where
               is_del=0
         <if test="able!=null and able!=''">
-           and tutor_good_subjects like '%${able}%'
+           and tutor_good_subjects like concat('%',#{able},'%')
         </if>
         <if test="school!=null and school!=''">
-           and tutor_school like '%${school}%'
+           and tutor_school like concat('%',#{school},'%')
         </if>
         <if test="location!=null and location!=''">
-           and tutor_location like '%${location}%'
+           and tutor_location like concat('%',#{location},'%')
         </if>
         limit #{page},#{limit}
     </select>
@@ -68,6 +68,6 @@
     </insert>
 
     <select id="getUserStudent" resultType="map">
-        select student_id,student_name from student where user_name=#{userName}
+        select student_id as id,student_name as name from student where user_name=#{userName}
     </select>
 </mapper>
