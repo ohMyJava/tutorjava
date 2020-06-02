@@ -21,6 +21,7 @@ public class DateUtil {
         Date date = new Date(System.currentTimeMillis());
         DateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
         Random random = new Random(100);
-        return "A"+df.format(date)+random.toString();
+        int randomNumber = random.nextInt(100);
+        return "A"+df.format(date)+randomNumber;
     }
 }

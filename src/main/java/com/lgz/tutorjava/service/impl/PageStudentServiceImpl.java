@@ -93,7 +93,7 @@ public class PageStudentServiceImpl implements PageStudentService {
     }
 
     @Override
-    public String getUserTutor(String userName){
-        return JsonUtil.objectToJson(pageStudentMapper.getUserTutor(userName));
+    public List<Map<String,Object>> getUserTutor(String userName){
+        return pageStudentMapper.getUserTutor(userName);
     }
 }

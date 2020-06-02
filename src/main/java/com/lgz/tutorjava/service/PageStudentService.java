@@ -19,5 +19,5 @@ public interface PageStudentService {
 
     Integer invite(Map<String,Object> map);
 
-    String getUserTutor(String userName);
+    List<Map<String,Object>> getUserTutor(String userName);
 }

@@ -33,7 +33,7 @@
     </update>
 
     <select id="getMyInfo" resultType="com.lgz.tutorjava.model.User">
-        select user_id,user_name,password,name,sex,age,phone_number from user
+        select user_id,user_name,name,sex,age,phone_number from user
         where is_del=0 and user_id=#{userId}
     </select>
 

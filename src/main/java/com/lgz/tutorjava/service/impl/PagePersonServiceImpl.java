@@ -146,8 +146,12 @@ public class PagePersonServiceImpl implements PagePersonService {
         String studentName = studentMapper.getStudentNameById(studentId);
         String tutorName = tutorMapper.getTutorNameById(tutorId);
         String content = tutorName+"正式成为学员【"+studentName+"】的家教。";
+
+        inviteInfo.put("content",content);
         inviteInfo.put("time",DateUtil.currDate());
         inviteInfo.put("type",2);
+        inviteInfo.put("stuId",studentId);
+        inviteInfo.put("isRead",0);
         if (pageStudentMapper.invite(inviteInfo)==1){
             flag = true;
         }else {

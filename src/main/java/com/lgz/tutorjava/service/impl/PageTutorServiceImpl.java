@@ -88,7 +88,7 @@ public class PageTutorServiceImpl implements PageTutorService {
     @Override
     public Integer invite(Map<String,Object> map){
         int stuId = (Integer) map.get("stuId");
-        int tutorId = (Integer)map.get("tutorId");
+        int tutorId = (Integer) map.get("tutorId");
         int useId = tutorMapper.getUserIdByTutorId(tutorId);
         map.put("invitedUserId",useId);
         //type、content、isRead、time
