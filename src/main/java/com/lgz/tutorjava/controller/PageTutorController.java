@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -111,10 +112,15 @@ public class PageTutorController {
     public Message getUserStudent(String userName){
         Message msg = new Message();
         try {
-            msg.setData(pageTutorService.getUserStudent(userName));
-            msg.setInfo("6666","查询用户学生列表成功！");
-            LOGGER.info("查询用户学生列表成功");
-            LOGGER.info(JsonUtil.objectToJson(msg));
+            List<Map<String,Object>> result = pageTutorService.getUserStudent(userName);
+            if (result.isEmpty()){
+                msg.setInfo("8888","用户还没有学生信息");
+                LOGGER.info("获取用户学生列表成功，列表为："+result);
+            }else {
+                msg.setData(result);
+                msg.setInfo("6666","获取用户学生列表成功！");
+                LOGGER.info("获取用户学生列表成功!");
+            }
         }catch (Exception e){
             LOGGER.warn("查询用户学生列表出现异常！"+e.getMessage());
             msg.setInfo("7777","查询用户列表出现异常！");
